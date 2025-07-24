@@ -35,13 +35,12 @@ jobs:
       - name: Build package
         run: yarn build
 
-      - name: Verify npm auth
-        run: npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Run semantic-release
-        run: npx semantic-release
+      - name: Run semantic-release (without npm plugin)
+        run: npx semantic-release --no-ci
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish package to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
