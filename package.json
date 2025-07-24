@@ -67,6 +67,7 @@
   "author": "Felipe Ramos <feliperamos.tech>",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "tag": "latest"
+    "tag": "latest",
+    "access": "public"
   }
 }
