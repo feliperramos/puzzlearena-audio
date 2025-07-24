@@ -64,5 +64,9 @@
   },
   "homepage": "https://github.com/feliperramos/puzzlearena-audio#readme",
   "license": "MIT",
-  "author": "Felipe Ramos <feliperamos.tech>"
+  "author": "Felipe Ramos <feliperamos.tech>",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest"
+  }
 }

@@ -4,15 +4,16 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
-  issues: write
-  packages: write
+  workflow_dispatch: # permite rodar manualmente
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # precisa para criar tags e releases
+      issues: write # para comentar em issues
+      pull-requests: write # para comentar em PRs
+      id-token: write # necessário para npm provenance
     steps:
       - uses: actions/checkout@v4
         with:
