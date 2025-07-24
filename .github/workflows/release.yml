@@ -4,26 +4,34 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # permite rodar manualmente
+
+permissions:
+  contents: write
+  issues: write
+  packages: write
+  pull-requests: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # precisa para criar tags e releases
-      issues: write # para comentar em issues
-      pull-requests: write # para comentar em PRs
-      id-token: write # necessário para npm provenance
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: "https://registry.npmjs.org/"
+
+      - name: Configure npm
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+
       - run: yarn install --frozen-lockfile
       - run: yarn build
+
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
