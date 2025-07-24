@@ -32,6 +32,10 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
+      - run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
