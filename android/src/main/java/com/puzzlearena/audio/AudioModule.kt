@@ -38,7 +38,7 @@ class AudioModule(private val reactContext: ReactApplicationContext) : ReactCont
 
     @ReactMethod
     fun playBackground(resName: String, loop: Boolean, volume: Double?, promise: Promise) {
-        stopBackground()
+        stopBackgroundInternal()
         val resId = findAudioResId(resName)
         if (resId == 0) {
             promise.reject("AUDIO_NOT_FOUND", "Audio file not found: $resName")
@@ -51,17 +51,17 @@ class AudioModule(private val reactContext: ReactApplicationContext) : ReactCont
             val vol = (volume ?: 1.0).toFloat().coerceIn(0f, 1f)
             mediaPlayer?.setVolume(vol, vol)
             mediaPlayer?.start()
+            promise.resolve(true)
         } catch (e: Exception) {
             promise.reject("AUDIO_ERROR", e.message)
         }
-    }   
+    }
 
     @ReactMethod
     fun stopBackground(promise: Promise) {
         try {
-            mediaPlayer?.stop()
-            mediaPlayer?.release()
-            mediaPlayer = null
+            stopBackgroundInternal()
+            promise.resolve(true)
         } catch (e: Exception) {
             promise.reject("AUDIO_STOP_ERROR", e.message)
         }
@@ -82,6 +82,7 @@ class AudioModule(private val reactContext: ReactApplicationContext) : ReactCont
             soundPool?.setOnLoadCompleteListener { _, sampleId, _ ->
                 if (sampleId == soundId) {
                     soundPool?.play(soundId, vol, vol, 1, 0, 1f)
+                    promise.resolve(true)
                 }
             }
         } catch (e: Exception) {
@@ -89,8 +90,14 @@ class AudioModule(private val reactContext: ReactApplicationContext) : ReactCont
         }
     }
 
+    private fun stopBackgroundInternal() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
     override fun onCatalystInstanceDestroy() {
-        stopBackground(Promise { _, _ -> })
+        stopBackgroundInternal()
         soundPool?.release()
         soundPool = null
     }
