@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/feliperramos/puzzlearena-audio/compare/v1.0.0...v1.0.1) (2025-07-24)
+
+
+### Bug Fixes
+
+* android error ([c3f4514](https://github.com/feliperramos/puzzlearena-audio/commit/c3f45145e3a10b0003a711881e12cc54dd5791d3))
+
 # 1.0.0 (2025-07-24)
 
 
