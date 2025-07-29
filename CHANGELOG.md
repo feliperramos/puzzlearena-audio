@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/feliperramos/puzzlearena-audio/compare/v1.0.1...v1.0.2) (2025-07-29)
+
+
+### Bug Fixes
+
+* iOS nativemodules errors and add new scripts ([7f1a81c](https://github.com/feliperramos/puzzlearena-audio/commit/7f1a81caa85bc081a25a4c2d56374b0f233ce2d9))
+
 ## [1.0.1](https://github.com/feliperramos/puzzlearena-audio/compare/v1.0.0...v1.0.1) (2025-07-24)
 
 
