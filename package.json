@@ -19,7 +19,8 @@
     "copy-audio": "ts-node ./bin/copy-audio.ts",
     "prepare": "npm run build",
     "test": "echo \"No tests yet\"",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "postversion": "node scripts/update-podspec-version.js && git add PuzzleArenaAudio.podspec"
   },
   "peerDependencies": {
     "react-native": ">=0.70.0"

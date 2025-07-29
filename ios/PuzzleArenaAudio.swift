@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import React // Import necessário para RCTPromiseResolveBlock e RejectBlock
 
 @objc(PuzzleArenaAudio)
 class PuzzleArenaAudio: NSObject {
@@ -24,8 +25,17 @@ class PuzzleArenaAudio: NSObject {
     return nil
   }
 
-  @objc func playBackground(_ name: String, loop: Bool, volume: NSNumber?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-    stopBackground()
+  private func stopCurrentBackground() {
+    backgroundPlayer?.stop()
+    backgroundPlayer = nil
+  }
+
+  @objc func playBackground(_ name: String,
+                            loop: Bool,
+                            volume: NSNumber,
+                            resolver resolve: RCTPromiseResolveBlock,
+                            rejecter reject: RCTPromiseRejectBlock) {
+    stopCurrentBackground()
 
     guard let url = findURL(for: name) else {
       reject("AUDIO_NOT_FOUND", "Audio file not found: \(name)", nil)
@@ -35,8 +45,7 @@ class PuzzleArenaAudio: NSObject {
     do {
       backgroundPlayer = try AVAudioPlayer(contentsOf: url)
       backgroundPlayer?.numberOfLoops = loop ? -1 : 0
-      let vol = volume?.floatValue ?? 1.0
-      backgroundPlayer?.volume = max(0.0, min(vol, 1.0))
+      backgroundPlayer?.volume = max(0.0, min(volume.floatValue, 1.0))
       backgroundPlayer?.prepareToPlay()
       backgroundPlayer?.play()
       resolve(true)
@@ -45,24 +54,28 @@ class PuzzleArenaAudio: NSObject {
     }
   }
 
-  @objc func stopBackground(_ resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+  @objc func stopBackground(_ resolve: RCTPromiseResolveBlock,
+                            rejecter reject: RCTPromiseRejectBlock) {
     backgroundPlayer?.stop()
     backgroundPlayer = nil
     resolve(true)
   }
 
-  @objc func playEffect(_ name: String, volume: NSNumber?, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+  @objc func playEffect(_ name: String,
+                        volume: NSNumber,
+                        resolver resolve: RCTPromiseResolveBlock,
+                        rejecter reject: RCTPromiseRejectBlock) {
     guard let url = findURL(for: name) else {
-      reject("AUDIO_EFFECT_NOT_FOUND", "Audio Effect not found: \(name)", nil)
+      reject("AUDIO_EFFECT_NOT_FOUND", "Audio effect not found: \(name)", nil)
       return
     }
 
     do {
       effectsPlayer = try AVAudioPlayer(contentsOf: url)
-      let vol = volume?.floatValue ?? 1.0
-      effectsPlayer?.volume = max(0.0, min(vol, 1.0))
+      effectsPlayer?.volume = max(0.0, min(volume.floatValue, 1.0))
       effectsPlayer?.prepareToPlay()
       effectsPlayer?.play()
+      resolve(true)
     } catch {
       reject("AUDIO_EFFECT_ERROR", error.localizedDescription, error)
     }
