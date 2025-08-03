@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/feliperramos/puzzlearena-audio/compare/v1.1.0...v1.1.1) (2025-08-03)
+
+
+### Bug Fixes
+
+* add podspec in files of package.json ([fe8be96](https://github.com/feliperramos/puzzlearena-audio/commit/fe8be961aa2d5881d2c039193abeb4552e43673a))
+
 # [1.1.0](https://github.com/feliperramos/puzzlearena-audio/compare/v1.0.2...v1.1.0) (2025-08-03)
 
 
