@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "PuzzleArenaAudio"
-  s.version      = "0.1.3"
+  s.version      = "0.1.4"
   s.swift_version = "5.0"
   s.summary      = "Lightweight native sound module for React Native"
   s.description  = "A lightweight native audio module for React Native to handle background music and sound effects."
