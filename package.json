@@ -9,7 +9,8 @@
     "lib",
     "ios",
     "android",
-    "dist/bin"
+    "dist/bin",
+    "PuzzleArenaAudio.podspec"
   ],
   "bin": {
     "puzzlearena-audio": "./dist/bin/copy-audio.js"
